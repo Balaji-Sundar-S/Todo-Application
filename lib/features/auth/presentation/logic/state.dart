@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:todo_application/features/auth/domain/entities/auth.entity.dart';
+import 'package:DoNow/features/auth/domain/entities/auth.entity.dart';
 
 part 'state.freezed.dart';
 

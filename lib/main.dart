@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_application/features/auth/domain/entities/auth.entity.dart';
-import 'package:todo_application/features/todo/presentation/pages/todo.page.dart';
-import 'package:todo_application/features/todo/presentation/pages/welcome.page.dart';
-import 'package:todo_application/firebase_options.dart';
+import 'package:DoNow/features/auth/domain/entities/auth.entity.dart';
+import 'package:DoNow/features/todo/presentation/pages/todo.page.dart';
+import 'package:DoNow/features/auth/presentation/pages/welcome.page.dart';
+import 'package:DoNow/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,14 +23,16 @@ class MyApp extends ConsumerWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return MaterialApp(
-            theme: ThemeData.light(),
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData.dark(),
             home: const Scaffold(
               body: Center(child: CircularProgressIndicator()),
             ),
           );
         } else if (snapshot.hasError) {
           return MaterialApp(
-            theme: ThemeData.light(),
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData.dark(),
             home: Scaffold(
               body: Center(child: Text('Error: ${snapshot.error}')),
             ),
@@ -39,25 +41,18 @@ class MyApp extends ConsumerWidget {
           // print(snapshot.data);
           return ProviderScope(
             child: MaterialApp(
-              theme: ThemeData.light(),
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData.dark(),
               title: 'Flutter Auth App',
               home: const TodoPage(),
             ),
           );
         } else {
           return MaterialApp(
-            theme: ThemeData.light(),
-            // darkTheme: ThemeData(
-            //   brightness: Brightness.dark,
-            //   primaryColor: Colors.blueGrey,
-            //   scaffoldBackgroundColor: Colors.black,
-            //   appBarTheme: AppBarTheme(
-            //     color: Colors.blueGrey[900],
-            //   ),
-            // ),
-            // themeMode: ThemeMode.dark,
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData.dark(),
             title: 'Flutter Auth App',
-            home: WelcomePage(),
+            home: const WelcomePage(),
           );
         }
       },

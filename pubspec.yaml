@@ -1,4 +1,4 @@
-name: todo_application
+name: DoNow
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -33,14 +33,14 @@ flutter:
   uses-material-design: true
   generate: true
 
-  # assets:
-  #   - assets/images
+  assets:
+    - assets/images/
   #   - assets/icons
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: assets/fonts/Schyler-Regular.ttf
-  #       - asset: assets/fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Lexend
+      fonts:
+        - asset: assets/fonts/Lexend-VariableFont_wght.ttf
+        - asset: assets/fonts/Michroma-Regular.ttf
   #         style: italic
   #   - family:

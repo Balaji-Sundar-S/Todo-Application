@@ -1,3 +1,3 @@
-# todo_application
+# DoNow
 
 A new Flutter project.

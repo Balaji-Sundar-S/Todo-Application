@@ -3,7 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_application/features/auth/presentation/logic/auth.provider.dart';
+import 'package:DoNow/core/constants/app.constants.dart';
+import 'package:DoNow/core/styles/color.style.dart';
+import 'package:DoNow/core/utils/texts/page_heading.dart';
+import 'package:DoNow/features/auth/presentation/logic/auth.provider.dart';
+import 'package:DoNow/features/auth/presentation/pages/login.page.dart';
+import 'package:DoNow/features/auth/presentation/widgets/button.dart';
+import 'package:DoNow/features/auth/presentation/widgets/textfield.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -32,7 +38,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               context: context,
               builder: (context) {
                 return const AlertDialog(
-                  content: Text('password reset link sent! check your mail'),
+                  content: Text(AppConstants.prl),
                 );
               },
             );
@@ -46,36 +52,37 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Forgot Password'),
+        leading: IconButton(
+          padding: const EdgeInsets.only(left: 4, top: 18),
+          color: AppColors.textfieldText,
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (_) => const LoginPage()));
+          },
+          icon: const Icon(Icons.arrow_back_rounded),
+        ),
+        title: const Padding(
+            padding: EdgeInsets.only(top: 18.0),
+            child: PageHeading(text: AppConstants.fpt)),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    passwordReset();
-                  }
-                },
-                child: const Text('Send Password Reset Email'),
-              ),
-            ],
-          ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(32),
+          children: [
+            const SizedBox(height: 190.0),
+            AppTextfield(
+              controller: emailController,
+              obscure: false,
+              text: AppConstants.eye,
+            ),
+            const SizedBox(height: 30),
+            AppButton(
+              onpressed: passwordReset,
+              text: AppConstants.sprl,
+              formKey: _formKey,
+            )
+          ],
         ),
       ),
     );
@@ -90,15 +97,15 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Success'),
-          content: const Text('Password reset link sent. check your mail'),
+          title: const Text(AppConstants.success),
+          content: const Text(AppConstants.prl),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('OK'),
+              child: const Text(AppConstants.ok),
             ),
           ],
         ),
@@ -109,7 +116,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Error'),
+            title: const Text(AppConstants.error),
             content: Text('$e'),
             actions: [
               TextButton(

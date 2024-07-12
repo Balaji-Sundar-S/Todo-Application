@@ -1,4 +1,4 @@
-import 'package:todo_application/features/auth/domain/entities/auth.entity.dart';
+import 'package:DoNow/features/auth/domain/entities/auth.entity.dart';
 
 class AuthModel extends AuthEntity {
   const AuthModel({super.uid, super.email, super.displayName});

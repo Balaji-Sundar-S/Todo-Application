@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_application/core/params/params.dart';
-import 'package:todo_application/core/usecases/usecase.dart';
-import 'package:todo_application/features/auth/domain/entities/auth.entity.dart';
-import 'package:todo_application/features/auth/domain/usecases/sign_in.dart';
-import 'package:todo_application/features/auth/domain/usecases/sign_out.dart';
-import 'package:todo_application/features/auth/domain/usecases/sign_up.dart';
-import 'package:todo_application/features/auth/presentation/logic/state.dart';
+import 'package:DoNow/core/params/params.dart';
+import 'package:DoNow/core/usecases/usecase.dart';
+import 'package:DoNow/features/auth/domain/entities/auth.entity.dart';
+import 'package:DoNow/features/auth/domain/usecases/sign_in.dart';
+import 'package:DoNow/features/auth/domain/usecases/sign_out.dart';
+import 'package:DoNow/features/auth/domain/usecases/sign_up.dart';
+import 'package:DoNow/features/auth/presentation/logic/state.dart';
 
 class AuthStateNotifier extends StateNotifier<AuthState> {
   final SignIn _signIn;

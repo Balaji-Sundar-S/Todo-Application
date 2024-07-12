@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:todo_application/features/auth/data/models/auth.model.dart';
-import 'package:todo_application/features/auth/domain/entities/auth.entity.dart';
-import 'package:todo_application/core/params/params.dart';
+import 'package:DoNow/features/auth/data/models/auth.model.dart';
+import 'package:DoNow/features/auth/domain/entities/auth.entity.dart';
+import 'package:DoNow/core/params/params.dart';
 
 abstract class AuthDataSource {
   Future<AuthEntity> signIn(Params params);

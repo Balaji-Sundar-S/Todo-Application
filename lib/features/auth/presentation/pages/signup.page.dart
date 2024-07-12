@@ -1,11 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_application/core/params/params.dart';
-import 'package:todo_application/features/auth/presentation/logic/auth.provider.dart';
-import 'package:todo_application/core/utils/utils.dart';
-import 'package:todo_application/features/auth/presentation/logic/state.dart';
-import 'package:todo_application/features/auth/presentation/pages/login.page.dart';
+import 'package:DoNow/core/constants/app.constants.dart';
+import 'package:DoNow/core/params/params.dart';
+import 'package:DoNow/core/styles/color.style.dart';
+import 'package:DoNow/core/utils/texts/page_heading.dart';
+import 'package:DoNow/features/auth/presentation/logic/auth.provider.dart';
+import 'package:DoNow/core/utils/utils.dart';
+import 'package:DoNow/features/auth/presentation/logic/state.dart';
+import 'package:DoNow/features/auth/presentation/pages/login.page.dart';
+import 'package:DoNow/features/auth/presentation/widgets/button.dart';
+import 'package:DoNow/features/auth/presentation/widgets/textfield.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
@@ -15,6 +20,7 @@ class SignUpPage extends ConsumerStatefulWidget {
 }
 
 class _SignUpPageState extends ConsumerState<SignUpPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _username = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -25,6 +31,43 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final authNotifier = ref.read(authStateProvider.notifier);
+
+    Future<void> updateDisplayName() async {
+      try {
+        User? user = _firebaseAuth.currentUser;
+        await user?.updateProfile(displayName: _username.text);
+        await user?.reload();
+        user = _firebaseAuth.currentUser;
+        setState(() {
+          displayName = '${user?.displayName}';
+        });
+        // print(displayName);
+      } catch (e) {
+        setState(() {
+          displayName = '';
+        });
+      }
+    }
+
+    void register() async {
+      if (_password.text == _confirmPassword.text) {
+        setState(() {
+          _errorMessage = '';
+        });
+        var params = Params(
+          email: _email.text,
+          password: _password.text,
+          userName: _username.text,
+        );
+        await authNotifier.signUp(params);
+        updateDisplayName();
+      } else {
+        setState(() {
+          _errorMessage = AppConstants.pdnm;
+        });
+      }
+    }
+
     ref.listen<AuthState>(
       authStateProvider,
       (previous, next) {
@@ -35,7 +78,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             if (data != null) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (_) => LoginPage(),
+                  builder: (_) => const LoginPage(),
                 ),
               );
             }
@@ -45,12 +88,12 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             return showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: const Text('Error'),
+                title: const Text(AppConstants.error),
                 content: Text('$e'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('OK'),
+                    child: const Text(AppConstants.ok),
                   ),
                 ],
               ),
@@ -62,82 +105,97 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: const Padding(
+          padding: EdgeInsets.only(left: 8.0, top: 18.0),
+          child: PageHeading(text: AppConstants.register),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(32),
           children: [
-            TextField(
+            const SizedBox(height: 10.0),
+            SizedBox(
+              width: 168.0,
+              height: 168.0,
+              child: ClipRRect(
+                child: Image.asset(
+                  "assets/images/app_logo.png",
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            const SizedBox(height: 50.0),
+            AppTextfield(
               controller: _username,
-              decoration: const InputDecoration(labelText: 'UserName'),
+              obscure: false,
+              text: AppConstants.eyu,
             ),
-            TextField(
+            const SizedBox(height: 30.0),
+            AppTextfield(
               controller: _email,
-              decoration: const InputDecoration(labelText: 'Email'),
+              obscure: false,
+              text: AppConstants.eye,
             ),
-            TextField(
+            const SizedBox(height: 30.0),
+            AppTextfield(
               controller: _password,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
+              obscure: true,
+              text: AppConstants.eyp,
             ),
-            TextField(
+            const SizedBox(height: 30.0),
+            AppTextfield(
               controller: _confirmPassword,
-              decoration: const InputDecoration(labelText: 'Confirm Password'),
-              obscureText: true,
+              obscure: true,
+              text: AppConstants.cp,
             ),
             if (_errorMessage.isNotEmpty)
               Text(
                 _errorMessage,
                 style: const TextStyle(color: Colors.red),
               ),
-            ElevatedButton(
-              onPressed: () async {
-                if (_password.text == _confirmPassword.text) {
-                  setState(() {
-                    _errorMessage = '';
-                  });
-                  var params = Params(
-                    email: _email.text,
-                    password: _password.text,
-                    userName: _username.text,
-                  );
-                  await authNotifier.signUp(params);
-                  _updateDisplayName();
-                } else {
-                  setState(() {
-                    _errorMessage = 'password do not match';
-                  });
-                }
-              },
-              child: const Text('Sign Up'),
+            const SizedBox(height: 30.0),
+            AppButton(
+              onpressed: register,
+              text: AppConstants.register,
+              formKey: _formKey,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Login'),
+            const SizedBox(height: 30.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  AppConstants.aha,
+                  style: TextStyle(
+                    color: AppColors.textfieldText,
+                    fontFamily: AppConstants.lexend,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => const LoginPage(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    AppConstants.login,
+                    style: TextStyle(
+                      fontFamily: AppConstants.lexend,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _updateDisplayName() async {
-    try {
-      User? user = _firebaseAuth.currentUser;
-      await user?.updateProfile(displayName: _username.text);
-      await user?.reload();
-      user = _firebaseAuth.currentUser;
-      setState(() {
-        displayName = '${user?.displayName}';
-      });
-      print(displayName);
-    } catch (e) {
-      setState(() {
-        displayName = '';
-      });
-    }
   }
 }

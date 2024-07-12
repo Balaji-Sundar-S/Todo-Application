@@ -1,6 +1,6 @@
+import 'package:DoNow/core/errors/failure.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todo_application/core/errors/failure.dart';
 
 abstract class Usecase<Type, Params> {
   Future<Either<Failure, Type>> call(Params params);

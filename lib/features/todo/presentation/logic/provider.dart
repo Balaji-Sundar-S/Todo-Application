@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_application/features/todo/data/remote%20datasource/todo.remotedatasource.dart';
-import 'package:todo_application/features/todo/data/repositoryimpl/todo.repositoryimpl.dart';
-import 'package:todo_application/features/todo/domain/repository/todo.repository.dart';
-import 'package:todo_application/features/todo/domain/usecases/addtodo.usecase.dart';
-import 'package:todo_application/features/todo/domain/usecases/deletetodo.usecase.dart';
-import 'package:todo_application/features/todo/domain/usecases/gettodo.usecase.dart';
-import 'package:todo_application/features/todo/domain/usecases/updatetodo.usecase.dart';
-import 'package:todo_application/features/todo/presentation/logic/state.dart';
-import 'package:todo_application/features/todo/presentation/logic/state.notifier.dart';
+import 'package:DoNow/features/todo/data/remote%20datasource/todo.remotedatasource.dart';
+import 'package:DoNow/features/todo/data/repositoryimpl/todo.repositoryimpl.dart';
+import 'package:DoNow/features/todo/domain/repository/todo.repository.dart';
+import 'package:DoNow/features/todo/domain/usecases/addtodo.usecase.dart';
+import 'package:DoNow/features/todo/domain/usecases/deletetodo.usecase.dart';
+import 'package:DoNow/features/todo/domain/usecases/gettodo.usecase.dart';
+import 'package:DoNow/features/todo/domain/usecases/updatetodo.usecase.dart';
+import 'package:DoNow/features/todo/presentation/logic/state.dart';
+import 'package:DoNow/features/todo/presentation/logic/state.notifier.dart';
 
 final todoRemoteDatasourceProvider = Provider<TodoRemoteDatasource>((ref) {
   return TodoRemoteDatasourceImpl(

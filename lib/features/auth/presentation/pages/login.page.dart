@@ -1,12 +1,18 @@
+import 'package:DoNow/features/auth/presentation/pages/welcome.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_application/core/params/params.dart';
-import 'package:todo_application/features/auth/presentation/logic/auth.provider.dart';
-import 'package:todo_application/core/utils/utils.dart';
-import 'package:todo_application/features/auth/presentation/logic/state.dart';
-import 'package:todo_application/features/auth/presentation/pages/forgot.password.dart';
-import 'package:todo_application/features/auth/presentation/pages/signup.page.dart';
-import 'package:todo_application/features/todo/presentation/pages/todo.page.dart';
+import 'package:DoNow/core/constants/app.constants.dart';
+import 'package:DoNow/core/params/params.dart';
+import 'package:DoNow/core/styles/color.style.dart';
+import 'package:DoNow/core/utils/texts/page_heading.dart';
+import 'package:DoNow/features/auth/presentation/logic/auth.provider.dart';
+import 'package:DoNow/core/utils/utils.dart';
+import 'package:DoNow/features/auth/presentation/logic/state.dart';
+import 'package:DoNow/features/auth/presentation/pages/forgot.password.dart';
+import 'package:DoNow/features/auth/presentation/pages/signup.page.dart';
+import 'package:DoNow/features/auth/presentation/widgets/button.dart';
+import 'package:DoNow/features/auth/presentation/widgets/textfield.dart';
+import 'package:DoNow/features/todo/presentation/pages/todo.page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -16,6 +22,7 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // final TextEditingController _username = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -24,6 +31,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final authNotifier = ref.read(authStateProvider.notifier);
+
+    void _login() async {
+      var params = Params(
+        email: _email.text,
+        password: _password.text,
+      );
+      await authNotifier.signIn(params);
+    }
 
     ref.listen<AuthState>(
       authStateProvider,
@@ -46,12 +61,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             return showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: const Text('Error'),
+                title: const Text(AppConstants.error),
                 content: Text('$e'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('OK'),
+                    child: const Text(AppConstants.ok),
                   ),
                 ],
               ),
@@ -61,83 +76,99 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       },
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        // backgroundColor: Colors.amber[50],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // TextField(
-            //   controller: _username,
-            //   decoration: const InputDecoration(labelText: 'UserName'),
-            // ),
-            TextField(
-              controller: _email,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _password,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                // _updateDisplayName();
-                var params = Params(
-                  email: _email.text,
-                  password: _password.text,
-                  // userName: _username.text,
-                );
-                await authNotifier.signIn(params);
-                // _updateDisplayName();
-              },
-              child: const Text('Login'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SignUpPage(),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Padding(
+            padding: EdgeInsets.only(left: 8.0, top: 10.0),
+            child: PageHeading(text: AppConstants.login),
+          ),
+        ),
+        body: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(32),
+            children: [
+              const SizedBox(height: 10.0),
+              SizedBox(
+                width: 168.0,
+                height: 168.0,
+                child: ClipRRect(
+                  child: Image.asset(
+                    "assets/images/app_logo.png",
+                    fit: BoxFit.contain,
                   ),
-                );
-              },
-              child: const Text('Sign Up'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ForgotPasswordPage(),
+                ),
+              ),
+              const SizedBox(height: 50.0),
+              AppTextfield(
+                controller: _email,
+                obscure: false,
+                text: AppConstants.eye,
+              ),
+              const SizedBox(height: 30.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  AppTextfield(
+                    controller: _password,
+                    obscure: true,
+                    text: AppConstants.eyp,
                   ),
-                );
-              },
-              child: const Text('Forgot Password?'),
-            ),
-          ],
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (_) => const ForgotPasswordPage(),
+                        ),
+                      );
+                    },
+                    child: const Text(AppConstants.fp),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30.0),
+              AppButton(
+                onpressed: _login,
+                text: AppConstants.login,
+                formKey: _formKey,
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    AppConstants.dha,
+                    style: TextStyle(
+                      color: AppColors.textfieldText,
+                      fontFamily: AppConstants.lexend,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (_) => const SignUpPage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      AppConstants.register,
+                      style: TextStyle(
+                        fontFamily: AppConstants.lexend,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  // Future<void> _updateDisplayName() async {
-  //   try {
-  //     User? user = _firebaseAuth.currentUser;
-  //     await user?.updateProfile(displayName: _username.text);
-  //     await user?.reload();
-  //     user = _firebaseAuth.currentUser;
-  //     setState(() {
-  //       displayName = '${user?.displayName}';
-  //     });
-  //     print(displayName);
-  //   } catch (e) {
-  //     setState(() {
-  //       displayName = '';
-  //     });
-  //   }
-  // }
 }

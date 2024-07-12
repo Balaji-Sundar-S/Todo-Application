@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_application/core/params/params.dart';
-import 'package:todo_application/features/todo/domain/usecases/addtodo.usecase.dart';
-import 'package:todo_application/features/todo/domain/usecases/deletetodo.usecase.dart';
-import 'package:todo_application/features/todo/domain/usecases/gettodo.usecase.dart';
-import 'package:todo_application/features/todo/domain/usecases/updatetodo.usecase.dart';
-import 'package:todo_application/features/todo/presentation/logic/state.dart';
+import 'package:DoNow/core/params/params.dart';
+import 'package:DoNow/features/todo/domain/usecases/addtodo.usecase.dart';
+import 'package:DoNow/features/todo/domain/usecases/deletetodo.usecase.dart';
+import 'package:DoNow/features/todo/domain/usecases/gettodo.usecase.dart';
+import 'package:DoNow/features/todo/domain/usecases/updatetodo.usecase.dart';
+import 'package:DoNow/features/todo/presentation/logic/state.dart';
 
 class TodoStateNotifier extends StateNotifier<TodoState> {
   final AddtodoUsecase addtodoUsecase;

@@ -1,10 +1,10 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:todo_application/core/errors/failure.dart';
-import 'package:todo_application/core/params/params.dart';
-import 'package:todo_application/features/todo/data/remote%20datasource/todo.remotedatasource.dart';
-import 'package:todo_application/features/todo/domain/entities/todo.entity.dart';
-import 'package:todo_application/features/todo/domain/repository/todo.repository.dart';
+import 'package:DoNow/core/errors/failure.dart';
+import 'package:DoNow/core/params/params.dart';
+import 'package:DoNow/features/todo/data/remote%20datasource/todo.remotedatasource.dart';
+import 'package:DoNow/features/todo/domain/entities/todo.entity.dart';
+import 'package:DoNow/features/todo/domain/repository/todo.repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   final TodoRemoteDatasource _todoRemoteDatasource;

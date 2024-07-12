@@ -1,10 +1,10 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:todo_application/core/errors/failure.dart';
-import 'package:todo_application/features/auth/data/datasources/remote_datasource.dart';
-import 'package:todo_application/features/auth/domain/entities/auth.entity.dart';
-import 'package:todo_application/core/params/params.dart';
-import 'package:todo_application/features/auth/domain/repositories/auth.repository.dart';
+import 'package:DoNow/core/errors/failure.dart';
+import 'package:DoNow/features/auth/data/datasources/remote_datasource.dart';
+import 'package:DoNow/features/auth/domain/entities/auth.entity.dart';
+import 'package:DoNow/core/params/params.dart';
+import 'package:DoNow/features/auth/domain/repositories/auth.repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDataSource _authDataSource;

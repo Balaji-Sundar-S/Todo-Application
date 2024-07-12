@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_application/core/alerts/loader.dart';
+import 'package:DoNow/core/alerts/loader.dart';
 
 class Utils {
   static Future showLoader(BuildContext context) async {

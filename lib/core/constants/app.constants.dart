@@ -1,0 +1,30 @@
+class AppConstants {
+  static const String hello = "Hello,";
+  static const String sat = "Start adding todos!";
+  static const String error = "Error";
+  static const String ok = "OK";
+  static const String login = "Login";
+  static const String logout = "Logout";
+  static const String eyu = "Enter your Username";
+  static const String eye = "Enter your Email";
+  static const String eyp = "Enter your Password";
+  static const String cp = "Confirm Password";
+  static const String fp = "Forgot Password?";
+  static const String fpt = "Forgot Password";
+  static const String dha = "Don't have an account?";
+  static const String aha = "Already having an account?";
+  static const String lexend = "Lexend";
+  static const String michroma = "Michroma";
+  static const String register = "Register";
+  static const String ca = "Create Account";
+  static const String welcome = "Welcome";
+  static const String prl = "password reset link sent! check your mail";
+  static const String sprl = "Send password reset link";
+  static const String pdnm = "Password do not match";
+  static const String success = "Success";
+  static const String settings = "Settings";
+  static const String addTodo = "Add Todo";
+  static const String updateTodo = "Update Todo";
+  static const String ett = "Enter Todo Title";
+  static const String etd = "Enter Todo Description";
+}

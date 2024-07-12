@@ -1,7 +1,7 @@
 import 'package:either_dart/either.dart';
-import 'package:todo_application/core/errors/failure.dart';
-import 'package:todo_application/core/params/params.dart';
-import 'package:todo_application/features/todo/domain/entities/todo.entity.dart';
+import 'package:DoNow/core/errors/failure.dart';
+import 'package:DoNow/core/params/params.dart';
+import 'package:DoNow/features/todo/domain/entities/todo.entity.dart';
 
 abstract class TodoRepository {
   Future<Either<Failure, void>> addTodo(Params params);
